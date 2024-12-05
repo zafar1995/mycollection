@@ -30,6 +30,6 @@ jobs:
         fi
         
         # Trigger the Jenkins pipeline
-        curl -X POST "https://d8ff-103-167-176-239.ngrok-free.app/job/Test/build" --user "admin:$JENKINS_TOKEN" -H "Jenkins-Crumb:45a68e179dd3015d56d2ac65da3e4f07162c7d5dd36d4364d3b2e130f397144c"
+        curl -X POST "https://d8ff-103-167-176-239.ngrok-free.app/job/Test/build" --user "admin:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB"
         
-        curl -X POST "$JENKINS_URL" --user "$JENKINS_USER:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB" 
+        # curl -X POST "$JENKINS_URL" --user "$JENKINS_USER:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB" 
