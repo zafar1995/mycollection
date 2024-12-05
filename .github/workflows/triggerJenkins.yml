@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'master'
+
 jobs:
   build:
     name: Build
@@ -19,4 +20,14 @@ jobs:
         JENKINS_TOKEN: bf0ca22f35774571aa00714e200bd3d7
       run: |
         # Fetch the Jenkins Crumb dynamically
-        CRUMB=$(curl -s "$JENKINS_CRUMB_URL" \
+        CRUMB=$(curl -s -u "$JENKINS_USER:$JENKINS_TOKEN" "$JENKINS_CRUMB_URL" | jq -r '.crumb')
+        
+        if [ -z "$CRUMB" ]; then
+          echo "Failed to fetch Jenkins crumb. Exiting."
+          exit 1
+        fi
+        
+        # Trigger the Jenkins pipeline
+        curl -X POST "$JENKINS_URL" \
+          --user "$JENKINS_USER:$JENKINS_TOKEN" \
+          -H "Jenkins-Crumb:$CRUMB" 
