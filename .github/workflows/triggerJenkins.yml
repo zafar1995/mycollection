@@ -53,20 +53,19 @@ jobs:
       run: |
         # Fetch the latest build information
         BUILD_INFO=$(curl -s -u "$JENKINS_USER:$JENKINS_TOKEN" "$JENKINS_URL/api/json?tree=lastBuild[number,url,result]")
+        echo "Build Info: $BUILD_INFO"
 
-          echo "Build Info: $BUILD_INFO"
+        # # Parse the build details using jq
+        # BUILD_NUMBER=$(echo "$BUILD_INFO" | jq -r '.lastBuild.number')
+        # BUILD_URL=$(echo "$BUILD_INFO" | jq -r '.lastBuild.url')
+        # BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.lastBuild.result')
 
-        # Parse the build details using jq
-        BUILD_NUMBER=$(echo "$BUILD_INFO" | jq -r '.lastBuild.number')
-        BUILD_URL=$(echo "$BUILD_INFO" | jq -r '.lastBuild.url')
-        BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.lastBuild.result')
+        # echo "Build Number: $BUILD_NUMBER"
+        # echo "Build URL: $BUILD_URL"
+        # echo "Build Status: $BUILD_STATUS"
 
-        echo "Build Number: $BUILD_NUMBER"
-        echo "Build URL: $BUILD_URL"
-        echo "Build Status: $BUILD_STATUS"
-
-        if [ "$BUILD_STATUS" == "null" ]; then
-          echo "Build is currently running..."
-        else
-          echo "Build status: $BUILD_STATUS"
-        fi
+        # if [ "$BUILD_STATUS" == "null" ]; then
+        #   echo "Build is currently running..."
+        # else
+        #   echo "Build status: $BUILD_STATUS"
+        # fi
