@@ -2,7 +2,7 @@ name: TriggerBuild
 on:
   push:
     branches:
-      - 'develop'
+      - 'master'
 jobs:
   build:
     name: Build
