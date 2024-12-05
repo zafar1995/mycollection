@@ -64,8 +64,8 @@ jobs:
         echo "Build URL: $BUILD_URL"
         echo "Build Status: $BUILD_STATUS"
 
-        # if [ "$BUILD_STATUS" == "null" ]; then
-        #   echo "Build is currently running..."
-        # else
-        #   echo "Build status: $BUILD_STATUS"
-        # fi
+        if [ "$BUILD_STATUS" == "null" ]; then
+          echo "Build is currently running..."
+        else
+          echo "Build status: $BUILD_STATUS"
+        fi
