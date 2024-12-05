@@ -31,5 +31,42 @@ jobs:
         
         # Trigger the Jenkins pipeline
         curl -X POST "https://d8ff-103-167-176-239.ngrok-free.app/job/Test/build" --user "admin:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB"
-        
-        # curl -X POST "$JENKINS_URL" --user "$JENKINS_USER:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB" 
+
+    - name: Trigger Jenkins Pipeline with Crumb
+      env:
+        JENKINS_URL: https://d8ff-103-167-176-239.ngrok-free.app/job/Test/buildWithParameters
+        JENKINS_CRUMB_URL: https://d8ff-103-167-176-239.ngrok-free.app/crumbIssuer/api/json
+        JENKINS_USER: admin
+        JENKINS_TOKEN: 114a67a3c34f96ae70a3c925303e402a80
+      run: |
+        # Trigger the Jenkins pipeline
+        echo "Triggering Jenkins build..."
+        BUILD_RESPONSE=$(curl -X POST "$JENKINS_URL/build" --user "$JENKINS_USER:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB" -s)
+
+        echo "Build Trigger Response: $BUILD_RESPONSE"
+
+    - name: Get Running Build Details
+      env:
+        JENKINS_URL: https://d8ff-103-167-176-239.ngrok-free.app/job/Test
+        JENKINS_USER: admin
+        JENKINS_TOKEN: 114a67a3c34f96ae70a3c925303e402a80
+      run: |
+        # Fetch the latest build information
+        BUILD_INFO=$(curl -s -u "$JENKINS_USER:$JENKINS_TOKEN" "$JENKINS_URL/api/json?tree=lastBuild[number,url,result]")
+
+          echo "Build Info: $BUILD_INFO"
+
+        # Parse the build details using jq
+        BUILD_NUMBER=$(echo "$BUILD_INFO" | jq -r '.lastBuild.number')
+        BUILD_URL=$(echo "$BUILD_INFO" | jq -r '.lastBuild.url')
+        BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.lastBuild.result')
+
+        echo "Build Number: $BUILD_NUMBER"
+        echo "Build URL: $BUILD_URL"
+        echo "Build Status: $BUILD_STATUS"
+
+        if [ "$BUILD_STATUS" == "null" ]; then
+          echo "Build is currently running..."
+        else
+          echo "Build status: $BUILD_STATUS"
+        fi
