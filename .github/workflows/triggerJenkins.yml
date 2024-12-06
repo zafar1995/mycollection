@@ -14,8 +14,8 @@ jobs:
 
     - name: Trigger Jenkins Pipeline with Crumb
       env:
-        JENKINS_URL: https://d8ff-103-167-176-239.ngrok-free.app/job/Test/buildWithParameters
-        JENKINS_CRUMB_URL: https://d8ff-103-167-176-239.ngrok-free.app/crumbIssuer/api/json
+        JENKINS_URL: https://022c-103-163-190-41.ngrok-free.app/job/Test/buildWithParameters
+        JENKINS_CRUMB_URL: https://022c-103-163-190-41.ngrok-free.app/crumbIssuer/api/json
         JENKINS_USER: admin
         JENKINS_TOKEN: 114a67a3c34f96ae70a3c925303e402a80
       run: |
@@ -30,29 +30,16 @@ jobs:
         fi
         
         # Trigger the Jenkins pipeline
-        curl -X POST "https://d8ff-103-167-176-239.ngrok-free.app/job/Test/build" --user "admin:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB"
-
-    # - name: Trigger Jenkins Pipeline with Crumb
-    #   env:
-    #     JENKINS_URL: https://d8ff-103-167-176-239.ngrok-free.app/job/Test/buildWithParameters
-    #     JENKINS_CRUMB_URL: https://d8ff-103-167-176-239.ngrok-free.app/crumbIssuer/api/json
-    #     JENKINS_USER: admin
-    #     JENKINS_TOKEN: 114a67a3c34f96ae70a3c925303e402a80
-    #   run: |
-    #     # Trigger the Jenkins pipeline
-    #     echo "Triggering Jenkins build..."
-    #     BUILD_RESPONSE=$(curl -X POST "$JENKINS_URL/build" --user "$JENKINS_USER:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB" -s)
-
-    #     echo "Build Trigger Response: $BUILD_RESPONSE"
+        curl -X POST "https://022c-103-163-190-41.ngrok-free.app/job/Test/build" --user "admin:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB"
 
     - name: Get Running Build Details
       env:
-        JENKINS_URL: https://d8ff-103-167-176-239.ngrok-free.app/job/Test
+        JENKINS_URL: https://022c-103-163-190-41.ngrok-free.app/job/Test
         JENKINS_USER: admin
         JENKINS_TOKEN: 114a67a3c34f96ae70a3c925303e402a80
       run: |
         # Fetch the latest build information
-        BUILD_INFO=$(curl -v -u "admin:114a67a3c34f96ae70a3c925303e402a80" "https://d8ff-103-167-176-239.ngrok-free.app/job/Test/api/json?tree=lastBuild%5Bnumber%2Curl%2Cresult%5D")
+        BUILD_INFO=$(curl -v -u "admin:114a67a3c34f96ae70a3c925303e402a80" "https://022c-103-163-190-41.ngrok-free.app/job/Test/api/json?tree=lastBuild%5Bnumber%2Curl%2Cresult%5D")
         echo "Build Info: $BUILD_INFO"
 
         # # Parse the build details using jq
