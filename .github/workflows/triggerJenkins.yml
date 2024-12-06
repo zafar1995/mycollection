@@ -14,8 +14,8 @@ jobs:
 
     - name: Trigger Jenkins Pipeline with Crumb
       env:
-        JENKINS_URL: https://022c-103-163-190-41.ngrok-free.app/job/Test/buildWithParameters
-        JENKINS_CRUMB_URL: https://022c-103-163-190-41.ngrok-free.app/crumbIssuer/api/json
+        JENKINS_URL: ep_2pqnTb7xnW4NYNvAoUj3LRrNgVN/job/Test/buildWithParameters
+        JENKINS_CRUMB_URL: ep_2pqnTb7xnW4NYNvAoUj3LRrNgVN/crumbIssuer/api/json
         JENKINS_USER: admin
         JENKINS_TOKEN: 114a67a3c34f96ae70a3c925303e402a80
       run: |
@@ -30,19 +30,19 @@ jobs:
         fi
         
         # Trigger the Jenkins pipeline
-        curl -X POST "https://022c-103-163-190-41.ngrok-free.app/job/Test/build" --user "admin:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB"
+        curl -X POST "ep_2pqnTb7xnW4NYNvAoUj3LRrNgVN/job/Test/build" --user "admin:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB"
     
     - name: sleep
       run: sleep 20
       
     - name: Get Running Build Details
       env:
-        JENKINS_URL: https://022c-103-163-190-41.ngrok-free.app/job/Test
+        JENKINS_URL: ep_2pqnTb7xnW4NYNvAoUj3LRrNgVN/job/Test
         JENKINS_USER: admin
         JENKINS_TOKEN: 114a67a3c34f96ae70a3c925303e402a80
       run: |
         # Fetch the latest build information
-        BUILD_INFO=$(curl -u "admin:$JENKINS_TOKEN" "https://022c-103-163-190-41.ngrok-free.app/job/Test/api/json" | jq '.builds | map(select(.buildable == true)) | .[0].number')
+        BUILD_INFO=$(curl -u "admin:$JENKINS_TOKEN" "ep_2pqnTb7xnW4NYNvAoUj3LRrNgVN/job/Test/api/json" | jq '.builds | map(select(.buildable == true)) | .[0].number')
         echo "Build Info: $BUILD_INFO"
 
         # # # Parse the build details using jq
