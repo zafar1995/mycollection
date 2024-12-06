@@ -42,20 +42,25 @@ jobs:
         JENKINS_TOKEN: 114a67a3c34f96ae70a3c925303e402a80
       run: |
         # Fetch the latest build information
-        BUILD_INFO=$(curl -u "admin:$JENKINS_TOKEN" "https://c984-103-163-190-41.ngrok-free.app/job/Test/api/json" | jq '.builds | map(select(.buildable == true)) | .[0].number')
-        echo "Build Info: $BUILD_INFO"
+        BUILD_INFO=$(curl -s -u "admin:$JENKINS_TOKEN" "https://c984-103-163-190-41.ngrok-free.app/job/Test/api/json")
+        LAST_BUILD_NUMBER=$(echo "$BUILD_INFO" | jq -r '.lastBuild.number')
+        echo "****************Build Info: $LAST_BUILD_NUMBER****************"
 
-        # # # Parse the build details using jq
-        # BUILD_NUMBER=$(echo "$BUILD_INFO" | jq -r '.lastBuild.number')
-        # BUILD_URL=$(echo "$BUILD_INFO" | jq -r '.lastBuild.url')
-        # BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.lastBuild.result')
+        # Fetch the latest build details
+        if [ "$LAST_BUILD_NUMBER" != "null" ]; then
+          BUILD_DETAILS=$(curl -s -u "admin:$JENKINS_TOKEN" "$JENKINS_URL/$LAST_BUILD_NUMBER/api/json")
 
-        # echo "Build Number: $BUILD_NUMBER"
-        # echo "Build URL: $BUILD_URL"
-        # echo "Build Status: $BUILD_STATUS"
+        # Parse the build details using jq
+        BUILD_NUMBER=$(echo "$BUILD_INFO" | jq -r '.number')
+        BUILD_URL=$(echo "$BUILD_INFO" | jq -r '.url')
+        BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.result')
 
-        # if [ "$BUILD_STATUS" == "null" ]; then
-        #   echo "Build is currently running..."
-        # else
-        #   echo "Build status: $BUILD_STATUS"
-        # fi
+        echo "Build Number: $BUILD_NUMBER"
+        echo "Build URL: $BUILD_URL"
+        echo "Build Status: $BUILD_STATUS"
+
+        if [ "$BUILD_STATUS" == "null" ]; then
+          echo "Build is currently running..."
+        else
+          echo "Build status: $BUILD_STATUS"
+        fi
