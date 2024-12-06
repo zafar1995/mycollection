@@ -31,7 +31,10 @@ jobs:
         
         # Trigger the Jenkins pipeline
         curl -X POST "https://022c-103-163-190-41.ngrok-free.app/job/Test/build" --user "admin:$JENKINS_TOKEN" -H "Jenkins-Crumb:$CRUMB"
-
+    
+    - name: sleep
+      run: sleep 300
+      
     - name: Get Running Build Details
       env:
         JENKINS_URL: https://022c-103-163-190-41.ngrok-free.app/job/Test
