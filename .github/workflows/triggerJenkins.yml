@@ -39,7 +39,7 @@ jobs:
         JENKINS_TOKEN: 114a67a3c34f96ae70a3c925303e402a80
       run: |
         # Fetch the latest build information
-        BUILD_INFO=$(curl -v -u "admin:114a67a3c34f96ae70a3c925303e402a80" "https://022c-103-163-190-41.ngrok-free.app/job/Test/api/json?tree=lastBuild%5Bnumber%2Curl%2Cresult%5D")
+        BUILD_INFO=$(curl -u "admin:$JENKINS_TOKEN" "https://022c-103-163-190-41.ngrok-free.app/job/Test/lastBuild/api/json" | jq '.number, .building, .result')
         echo "Build Info: $BUILD_INFO"
 
         # # Parse the build details using jq
