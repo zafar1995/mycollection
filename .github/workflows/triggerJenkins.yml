@@ -50,8 +50,8 @@ jobs:
         # if [ "$LAST_BUILD_NUMBER" != "null" ]; then
         #   BUILD_DETAILS=$(curl -s -u "admin:$JENKINS_TOKEN" "$JENKINS_URL/$LAST_BUILD_NUMBER/api/json")
         
-        if [ "$LAST_BUILD_NUMBER" != "null" ]; then
-          # Fetch the latest build details
+        # if [ "$LAST_BUILD_NUMBER" != "null" ]; then
+        #   # Fetch the latest build details
           BUILD_DETAILS=$(curl -s -u "admin:$JENKINS_TOKEN" "$JENKINS_URL/$LAST_BUILD_NUMBER/api/json")
        
         # Parse the build details using jq
