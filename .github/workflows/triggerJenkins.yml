@@ -46,14 +46,18 @@ jobs:
         LAST_BUILD_NUMBER=$(echo "$BUILD_INFO" | jq -r '.lastBuild.number')
         echo "****************Build Info: $LAST_BUILD_NUMBER****************"
 
-        # Fetch the latest build details
+        # # Fetch the latest build details
+        # if [ "$LAST_BUILD_NUMBER" != "null" ]; then
+        #   BUILD_DETAILS=$(curl -s -u "admin:$JENKINS_TOKEN" "$JENKINS_URL/$LAST_BUILD_NUMBER/api/json")
+        
         if [ "$LAST_BUILD_NUMBER" != "null" ]; then
+          # Fetch the latest build details
           BUILD_DETAILS=$(curl -s -u "admin:$JENKINS_TOKEN" "$JENKINS_URL/$LAST_BUILD_NUMBER/api/json")
-
+       
         # Parse the build details using jq
-        BUILD_NUMBER=$(echo "$BUILD_INFO" | jq -r '.number')
-        BUILD_URL=$(echo "$BUILD_INFO" | jq -r '.url')
-        BUILD_STATUS=$(echo "$BUILD_INFO" | jq -r '.result')
+        BUILD_NUMBER=$(echo "$BUILD_DETAILS" | jq -r '.number')
+        BUILD_URL=$(echo "$BUILD_DETAILS" | jq -r '.url')
+        BUILD_STATUS=$(echo "$BUILD_DETAILS" | jq -r '.result')
 
         echo "Build Number: $BUILD_NUMBER"
         echo "Build URL: $BUILD_URL"
